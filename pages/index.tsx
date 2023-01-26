@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+import PrefCheckBox from '../components/PrefCheckBox'
 
 export default function Home() {
   return (
@@ -23,10 +24,7 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <label>
-            <input type="checkbox" value="hokkaido"/>
-            北海道
-          </label>
+          <PrefCheckBox name = "北海道"></PrefCheckBox>
         </div>
       </main>
 
