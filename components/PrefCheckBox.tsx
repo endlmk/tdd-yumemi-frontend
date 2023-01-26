@@ -1,10 +1,10 @@
 import React from "react";
 
 type Prefecture = {
-    name: String
+  name: String;
 };
 
-const PrefCheckBox = ({name}: Prefecture) => {
+const PrefCheckBox = ({ name }: Prefecture) => {
   return (
     <div>
       <label>
@@ -13,6 +13,6 @@ const PrefCheckBox = ({name}: Prefecture) => {
       </label>
     </div>
   );
-}
+};
 
-export default PrefCheckBox
+export default PrefCheckBox;
