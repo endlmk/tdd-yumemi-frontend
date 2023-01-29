@@ -8,9 +8,11 @@ describe('Navigation', () => {
     // Start from the index page
     cy.visit('http://localhost:3000/')
 
-    cy.get('[type="checkbox"]').should('have.length', 1)
+    cy.get('[type="checkbox"]').should('have.length', 2)
 
     cy.get('label').first().contains('北海道')
+    cy.get('label').eq(1).contains('青森')
+
   })
 })
 

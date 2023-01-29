@@ -24,7 +24,9 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <PrefCheckBox name="北海道"></PrefCheckBox>
+          {["北海道", "青森"].map((n) => {
+            return <PrefCheckBox name={n}></PrefCheckBox>;
+          })}
         </div>
       </main>
 
