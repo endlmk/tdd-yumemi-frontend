@@ -3,18 +3,17 @@
 // If you're using ESLint on your project, we recommend installing the ESLint Cypress plugin instead:
 // https://github.com/cypress-io/eslint-plugin-cypress
 
-describe('Navigation', () => {
-  it('should show prefecture checkboxes', () => {
+describe("Navigation", () => {
+  it("should show prefecture checkboxes", () => {
     // Start from the index page
-    cy.visit('http://localhost:3000/')
+    cy.visit("http://localhost:3000/");
 
-    cy.get('[type="checkbox"]').should('have.length', 2)
+    cy.get('[type="checkbox"]').should("have.length", 47);
 
-    cy.get('label').first().contains('北海道')
-    cy.get('label').eq(1).contains('青森')
-
-  })
-})
+    cy.get("label").first().contains("北海道");
+    cy.get("label").eq(1).contains("青森");
+  });
+});
 
 // Prevent TypeScript from reading file as legacy script
-export {}
+export {};

@@ -3,8 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import PrefCheckBox from "../components/PrefCheckBox";
+import { getPrefectures } from "./api/prefectures";
+import type { PrefectureData } from "./api/prefectures";
+type Props = {
+  prefs: PrefectureData;
+};
 
-export default function Home() {
+export async function getServerSideProps() {
+  const prefs = await getPrefectures();
+  return { props: { prefs } };
+}
+
+export default function Home(data: Props) {
   return (
     <div className={styles.container}>
       <Head>
@@ -24,8 +34,8 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          {["北海道", "青森"].map((n) => {
-            return <PrefCheckBox name={n}></PrefCheckBox>;
+          {data.prefs.result.map((n) => {
+            return <PrefCheckBox name={n.prefName}></PrefCheckBox>;
           })}
         </div>
       </main>
