@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import PrefCheckBox from "../components/PrefCheckBox";
 import { getPrefectures } from "./api/prefectures";
 import type { PrefectureData } from "./api/prefectures";
+import { useState } from "react";
 type Props = {
   prefs: PrefectureData;
 };
@@ -15,6 +16,8 @@ export async function getServerSideProps() {
 }
 
 export default function Home(data: Props) {
+  const [selectedPrefCodes, setSelectedPrefCode] = useState<Number[]>([]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -35,9 +38,25 @@ export default function Home(data: Props) {
 
         <div className={styles.grid}>
           {data.prefs.result.map((n) => {
-            return <PrefCheckBox name={n.prefName}></PrefCheckBox>;
+            return (
+              <PrefCheckBox
+                key={n.prefCode.toString()}
+                name={n.prefName}
+                code={n.prefCode}
+                onChange={(c) => {
+                  if (selectedPrefCodes.indexOf(c) === -1) {
+                    setSelectedPrefCode(selectedPrefCodes.concat(c));
+                  } else {
+                    setSelectedPrefCode(
+                      selectedPrefCodes.filter((n) => n !== c)
+                    );
+                  }
+                }}
+              ></PrefCheckBox>
+            );
           })}
         </div>
+        <label>selected:{selectedPrefCodes.join(", ")}</label>
       </main>
 
       <footer className={styles.footer}>

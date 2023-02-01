@@ -12,6 +12,14 @@ describe("Navigation", () => {
 
     cy.get("label").first().contains("北海道");
     cy.get("label").eq(1).contains("青森");
+
+    cy.get('[type="checkbox"]').first().check();
+
+    cy.contains("selected:1");
+
+    cy.get('[type="checkbox"]').eq(46).check();
+
+    cy.contains("selected:1, 47");
   });
 });
 
