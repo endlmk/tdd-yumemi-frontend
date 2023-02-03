@@ -5,13 +5,21 @@ import styles from "../styles/Home.module.css";
 import PrefCheckBox from "../components/PrefCheckBox";
 import { getPrefectures } from "./api/prefectures";
 import type { PrefectureData } from "./api/prefectures";
-import { useState } from "react";
+import type { CompositionData } from "./api/composition/[prefCode]";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import type {
+  PopulationChartData,
+  PopulationOfPref,
+  Line,
+  Point,
+} from "../components/PopulationChart";
+import { NextApiRequest, NextApiResponse } from "next";
 type Props = {
   prefs: PrefectureData;
 };
 
-const CompositionChart = dynamic(import("../components/CompositionChart"), {
+const PopulationChart = dynamic(import("../components/PopulationChart"), {
   ssr: false,
 });
 
@@ -21,7 +29,7 @@ export async function getServerSideProps() {
 }
 
 export default function Home(data: Props) {
-  const [selectedPrefCodes, setSelectedPrefCode] = useState<Number[]>([]);
+  const [populationData, setPopulationData] = useState<PopulationChartData>([]);
 
   return (
     <div className={styles.container}>
@@ -49,11 +57,28 @@ export default function Home(data: Props) {
                 name={n.prefName}
                 code={n.prefCode}
                 onChange={(c) => {
-                  if (selectedPrefCodes.indexOf(c) === -1) {
-                    setSelectedPrefCode(selectedPrefCodes.concat(c));
+                  if (!populationData.find((p) => p.code === c)) {
+                    const fetchPopulation = async (n: number) => {
+                      const res = await fetch(`/api/composition/${n}`);
+                      const d = (await res.json()) as CompositionData;
+                      const l: Line = d.result.data
+                        .find((d) => d.label === "総人口")
+                        .data.map((d) => {
+                          return { year: d.year, value: d.value };
+                        });
+                      setPopulationData(
+                        populationData.concat({
+                          code: n,
+                          name: data.prefs.result.find((p) => p.prefCode == n)
+                            .prefName,
+                          line: l,
+                        })
+                      );
+                    };
+                    fetchPopulation(c);
                   } else {
-                    setSelectedPrefCode(
-                      selectedPrefCodes.filter((n) => n !== c)
+                    setPopulationData(
+                      populationData.filter((p) => p.code != c)
                     );
                   }
                 }}
@@ -61,8 +86,7 @@ export default function Home(data: Props) {
             );
           })}
         </div>
-        <label>selected:{selectedPrefCodes.join(", ")}</label>
-        <CompositionChart />
+        <PopulationChart data={populationData} />
       </main>
 
       <footer className={styles.footer}>

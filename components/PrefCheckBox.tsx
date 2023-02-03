@@ -2,8 +2,8 @@ import React from "react";
 
 type PrefectureProps = {
   name: string;
-  code: Number;
-  onChange: (code: Number) => void;
+  code: number;
+  onChange: (code: number) => void;
 };
 
 const PrefCheckBox = ({ name, code, onChange }: PrefectureProps) => {

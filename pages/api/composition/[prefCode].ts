@@ -3,19 +3,19 @@ import type { NextApiRequest, NextApiResponse } from "next";
 export type CompositionData = {
   message: string;
   result: {
-    boundaryYear: Number;
+    boundaryYear: number;
     data: {
       label: string;
       data: {
-        year: Number;
-        value: Number;
-        rate?: Number;
+        year: number;
+        value: number;
+        rate?: number;
       }[];
-    };
+    }[];
   };
 };
 
-async function getComposition(prefCode: Number): Promise<CompositionData> {
+async function getComposition(prefCode: number): Promise<CompositionData> {
   const res = await fetch(
     "https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=" +
       prefCode.toString(),
