@@ -6,9 +6,14 @@ import PrefCheckBox from "../components/PrefCheckBox";
 import { getPrefectures } from "./api/prefectures";
 import type { PrefectureData } from "./api/prefectures";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 type Props = {
   prefs: PrefectureData;
 };
+
+const CompositionChart = dynamic(import("../components/CompositionChart"), {
+  ssr: false,
+});
 
 export async function getServerSideProps() {
   const prefs = await getPrefectures();
@@ -57,6 +62,7 @@ export default function Home(data: Props) {
           })}
         </div>
         <label>selected:{selectedPrefCodes.join(", ")}</label>
+        <CompositionChart />
       </main>
 
       <footer className={styles.footer}>
