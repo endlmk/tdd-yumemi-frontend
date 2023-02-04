@@ -4,7 +4,7 @@
 // https://github.com/cypress-io/eslint-plugin-cypress
 
 describe("Navigation", () => {
-  it("should show prefecture checkboxes", () => {
+  it("should show prefecture checkboxes and show charts", () => {
     // Start from the index page
     cy.visit("http://localhost:3000/");
 
@@ -15,11 +15,11 @@ describe("Navigation", () => {
 
     cy.get('[type="checkbox"]').first().check();
 
-    cy.contains("selected:1");
+    cy.get(".recharts-legend-item").first().contains("北海道");
 
     cy.get('[type="checkbox"]').eq(46).check();
 
-    cy.contains("selected:1, 47");
+    cy.get(".recharts-legend-item").eq(1).contains("沖縄");
   });
 });
 
