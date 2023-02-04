@@ -56,26 +56,28 @@ export default function Home(data: Props) {
                 key={n.prefCode.toString()}
                 name={n.prefName}
                 code={n.prefCode}
-                onChange={(c) => {
-                  if (!populationData.some((p) => p.code === c)) {
-                    const fetchPopulation = async (n: number) => {
-                      const res = await fetch(`/api/composition/${n}`);
-                      const d = (await res.json()) as CompositionData;
-                      const l: Line = d.result.data
-                        .find((d) => d.label === "総人口")
-                        .data.map((d) => {
-                          return { year: d.year, value: d.value };
-                        });
-                      setPopulationData(
-                        populationData.concat({
-                          code: n,
-                          name: data.prefs.result.find((p) => p.prefCode == n)
-                            .prefName,
-                          line: l,
-                        })
-                      );
-                    };
-                    fetchPopulation(c);
+                onChange={(c, isChecked) => {
+                  if (isChecked) {
+                    if (!populationData.some((p) => p.code === c)) {
+                      const fetchPopulation = async (n: number) => {
+                        const res = await fetch(`/api/composition/${n}`);
+                        const d = (await res.json()) as CompositionData;
+                        const l: Line = d.result.data
+                          .find((d) => d.label === "総人口")
+                          .data.map((d) => {
+                            return { year: d.year, value: d.value };
+                          });
+                        setPopulationData(
+                          populationData.concat({
+                            code: n,
+                            name: data.prefs.result.find((p) => p.prefCode == n)
+                              .prefName,
+                            line: l,
+                          })
+                        );
+                      };
+                      fetchPopulation(c);
+                    }
                   } else {
                     setPopulationData(
                       populationData.filter((p) => p.code != c)
