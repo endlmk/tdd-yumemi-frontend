@@ -57,7 +57,7 @@ export default function Home(data: Props) {
                 name={n.prefName}
                 code={n.prefCode}
                 onChange={(c) => {
-                  if (!populationData.find((p) => p.code === c)) {
+                  if (!populationData.some((p) => p.code === c)) {
                     const fetchPopulation = async (n: number) => {
                       const res = await fetch(`/api/composition/${n}`);
                       const d = (await res.json()) as CompositionData;
