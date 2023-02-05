@@ -58,7 +58,7 @@ export default function Home(data: Props) {
                 name={n.prefName}
                 code={n.prefCode}
                 checked={populationData.some((p) => p.code === n.prefCode)}
-                onChange={(c) => {
+                onChange={async (c) => {
                   if (!populationData.some((p) => p.code === c)) {
                     setIsLoading(true);
                     const fetchPopulation = async (n: number) => {
@@ -79,7 +79,7 @@ export default function Home(data: Props) {
                       );
                       setIsLoading(false);
                     };
-                    fetchPopulation(c);
+                    await fetchPopulation(c);
                   } else {
                     setPopulationData(
                       populationData.filter((p) => p.code != c)
