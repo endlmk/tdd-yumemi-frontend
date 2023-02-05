@@ -14,7 +14,7 @@ import type {
   Line,
   Point,
 } from "../components/PopulationChart";
-import { NextApiRequest, NextApiResponse } from "next";
+
 type Props = {
   prefs: PrefectureData;
 };
@@ -30,6 +30,7 @@ export async function getServerSideProps() {
 
 export default function Home(data: Props) {
   const [populationData, setPopulationData] = useState<PopulationChartData>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <div className={styles.container}>
@@ -59,6 +60,7 @@ export default function Home(data: Props) {
                 checked={populationData.some((p) => p.code === n.prefCode)}
                 onChange={(c) => {
                   if (!populationData.some((p) => p.code === c)) {
+                    setIsLoading(true);
                     const fetchPopulation = async (n: number) => {
                       const res = await fetch(`/api/composition/${n}`);
                       const d = (await res.json()) as CompositionData;
@@ -75,6 +77,7 @@ export default function Home(data: Props) {
                           line: l,
                         })
                       );
+                      setIsLoading(false);
                     };
                     fetchPopulation(c);
                   } else {
@@ -87,7 +90,7 @@ export default function Home(data: Props) {
             );
           })}
         </div>
-        <PopulationChart data={populationData} />
+        <PopulationChart data={populationData} isLoading={isLoading} />
       </main>
 
       <footer className={styles.footer}>

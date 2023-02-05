@@ -16,9 +16,10 @@ export type PopulationChartData = PopulationOfPref[];
 
 type PopulationChartProps = {
   data: PopulationChartData;
+  isLoading: boolean;
 };
 
-const PopulationChart = ({ data }: PopulationChartProps) => {
+const PopulationChart = ({ data, isLoading }: PopulationChartProps) => {
   const colors = [
     "#1f77b4",
     "#ff7f0e",
@@ -68,7 +69,9 @@ const PopulationChart = ({ data }: PopulationChartProps) => {
     "#a100ff",
     "#00ffa1",
   ];
-  return (
+  return isLoading ? (
+    <div style={{ width: 400, height: 400 }}>Loading...</div>
+  ) : (
     <ScatterChart
       width={400}
       height={400}
