@@ -4,17 +4,21 @@ import React from "react";
 type PrefectureProps = {
   name: string;
   code: number;
-  onChange: (code: number, isChecked: boolean) => void;
+  checked: boolean;
+  onChange: (code: number) => void;
 };
 
-const PrefCheckBox = ({ name, code, onChange }: PrefectureProps) => {
+const PrefCheckBox = ({ name, code, checked, onChange }: PrefectureProps) => {
   return (
     <div>
       <label>
         <input
           name={name}
           type="checkbox"
-          onChange={(e) => onChange(code, e.target.checked)}
+          checked={checked}
+          onChange={(e) => {
+            onChange(code);
+          }}
         />
         {name}
       </label>
