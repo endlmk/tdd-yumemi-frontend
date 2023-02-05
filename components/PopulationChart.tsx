@@ -1,5 +1,12 @@
 import React from "react";
-import { ScatterChart, Scatter, XAxis, YAxis, Legend, ZAxis } from "recharts";
+import {
+  ScatterChart,
+  Scatter,
+  XAxis,
+  YAxis,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 export type Point = {
   year: number;
@@ -69,31 +76,48 @@ const PopulationChart = ({ data }: PopulationChartProps) => {
     "#00ffa1",
   ];
   return (
-    <ScatterChart
-      width={400}
-      height={400}
-      margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-    >
-      <XAxis
-        dataKey="year"
-        name="year"
-        ticks={data.length ? undefined : [""]}
-        allowDuplicatedCategory={false}
-      />
-      <YAxis dataKey="value" name="total" />
-      <Legend />
-      {data.map((p) => {
-        return (
-          <Scatter
-            line
-            name={p.name}
-            data={p.line}
-            fill={colors[p.code - 1]}
-            isAnimationActive={false}
-          />
-        );
-      })}
-    </ScatterChart>
+    <ResponsiveContainer width={"99%"} height={400}>
+      <ScatterChart
+        width={400}
+        height={400}
+        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+      >
+        <XAxis
+          padding={{ right: 30 }}
+          dataKey="year"
+          name="year"
+          ticks={data.length ? undefined : [""]}
+          allowDuplicatedCategory={false}
+          label={{
+            value: "年度",
+            position: "insideBottomRight",
+            offset: -10,
+          }}
+        />
+        <YAxis
+          padding={{ top: 30 }}
+          dataKey="value"
+          name="total"
+          label={{
+            value: "人口数",
+            position: "insideTopLeft",
+            offset: -15,
+          }}
+        />
+        <Legend />
+        {data.map((p) => {
+          return (
+            <Scatter
+              line
+              name={p.name}
+              data={p.line}
+              fill={colors[p.code - 1]}
+              isAnimationActive={false}
+            />
+          );
+        })}
+      </ScatterChart>
+    </ResponsiveContainer>
   );
 };
 
