@@ -30,7 +30,7 @@ export async function getServerSideProps() {
 
 export default function Home(data: Props) {
   const [populationData, setPopulationData] = useState<PopulationChartData>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -90,7 +90,10 @@ export default function Home(data: Props) {
             );
           })}
         </div>
-        <PopulationChart data={populationData} isLoading={isLoading} />
+        <div style={{ height: 18, textAlign: "center" }}>
+          {isLoading ? "Loading..." : ""}
+        </div>
+        <PopulationChart data={populationData} />
       </main>
 
       <footer className={styles.footer}>
