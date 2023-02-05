@@ -76,7 +76,7 @@ const PopulationChart = ({ data }: PopulationChartProps) => {
     "#00ffa1",
   ];
   return (
-    <ResponsiveContainer width={"99%"} height={400}>
+    <ResponsiveContainer width={"90%"} height={400}>
       <ScatterChart
         width={400}
         height={400}
@@ -108,6 +108,7 @@ const PopulationChart = ({ data }: PopulationChartProps) => {
         {data.map((p) => {
           return (
             <Scatter
+              key={p.code}
               line
               name={p.name}
               data={p.line}
